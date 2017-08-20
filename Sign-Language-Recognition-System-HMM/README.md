@@ -2,6 +2,10 @@
 ## Probabilistic Models
 ## Project: Sign Language Recognition System
 
+
+This projects builds a system that can recognize words communicated using the American Sign Language (ASL). We'll use a preprocessed dataset of tracked hand and nose positions extracted from video. The goal would be to train a set of Hidden Markov Models (HMMs) using part of this dataset to try and identify individual words from test sequences.
+
+
 ### Install
 
 This project requires **Python 3** and the following Python libraries installed:
