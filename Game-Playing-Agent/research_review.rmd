@@ -1,0 +1,54 @@
+---
+title: 'Deep Blue by IBM Watson: Research Review'
+author: "Vamshidhar Pandrapagada"
+date: "May 15, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+On May 11th 1997, An intelligent program called Deep Blue developed by IBM defeated chess world champion Garry Kasparov at his own game, which seemed an impossible task at the time.  
+How do we define this program in current age? Do we call it Artificial Intelligence? Declaring a computer program to be artificially intelligent is a debatable question, as the definition of intelligence changes over time. Computers have been able to solve complex problems in the recent past and yet no one is quite willing to call them intelligent.  
+Regardless of how we define Artificial Intelligence, Deep Blue will remain as a remarkable feat achieved to win not only a chess game but also a chess match against a reigning world champion under regular time controls. This feat was thought to be inconceivable by any computer for decades into the future.
+
+## Abstract and Goals
+In short, Deep Blue team's primary goal was to build a robust computer program to beat the world champion. While, building a game of chess and defeating Kasparov is merely a goal to bench-marking progress, this massive parallel computing machine was designed to widen the AI research space to put it to use in other fields of technology like transport, medicine, aviation, etc.
+
+A series of chess playing machines were released prior to Deep Blue II, starting with Deep-Thought I, Deep-Thought II and Deep Blue I. A number of deficiencies were identified as team progressed through versions.  
+Following are the series of changes (in brief) that were made on Deep-Blue I before announcing Deep-Blue II.  
+
+1. The new chess chip had a completely redesigned evaluation function, going from around 6400 features to over 8000, which added hardware repetition detection capability.
+2. Efficiency improvements that increased the per chip search speed to 2-2.5 million positions per second.
+3. Double the number of chips in the system to increase the processing capability.
+4. New set of debugging tools to aid in debugging and match preparation.
+5. The hardware set included 30-node (30-processor) IBMRS/6000 SP computer and 480 single-chip chess search engines, with 16 chess chips per SP processor. This configuration was able to achieve a search capability of 300 million positions per second.
+
+## How ?
+Deep blue's power comes from its massive parallel system to participate in the game tree search with help of its complex evaluation functions. It has a lot of chess information, gathered from Grand-Masters' database and the team has spent several months in educating the machine about some of the complex and underlying moves of the game.  
+Ideas developed in earlier chess programs, including quiescence search, iterative deepening, transposition tables formed a very sound basis for designing and building a robust chess-playing system.
+Few techniques used in the development are described in brief below:  
+
+1. Use a smart evaluation function which skips an expensive full evaluation when an approximation is good enough, a technique called Slow-evaluation.  
+Fast-evaluation computes a score for a chess position in a single clock cycle which contains all the easily computed major evaluation terms with high values.
+2. **Hardware Search Control**: Uses a number of state machines to implement null-window alpha-beta search that takes place on chess chip. The advantage of null-window search is that it eliminates the need for a value stack, simplifying the hardware design. Since the search is on a hardware chip,it is faster.
+3. **Software search** called "Dual credit with delayed extensions".
+4. **Parallel search** using Processor hierarchy and Control distribution.
+5. **Extended Book technique**, uses each of the 700,000 positions in Grand-Masters' database and the summary information is used to nudge Deep Blue in the consensus direction of chess opening theory.
+
+A combination of several other techniques were blended into the algorithm, but only few of the critical ones are highlighted above.
+
+## Conclusion
+Deep blue left a major impact on computing industries across the world. Though, this advanced program was designed to solve a complex game like chess, it made the research industry believe in the power of massive parallel computing systems. This innovation was a gateway to tackle next-gen complex problems in other fields using various deep learning techniques.  
+Deep Blue is now retired and sits in the Smithsonian Museum in Washington, DC.
+
+## References
+
+[IBM-100 Deep Blue](http://www-03.ibm.com/ibm/history/ibm100/us/en/icons/deepblue/)  
+[IBM-Research Deep Blue](https://www.research.ibm.com/deepblue/meet/html/d.3.3a.shtml)  
+[Deep Blue by the IBM Watson Team](https://pdfs.semanticscholar.org/ad2c/1efffcd7c3b7106e507396bdaa5fe00fa597.pdf)
+
+
+

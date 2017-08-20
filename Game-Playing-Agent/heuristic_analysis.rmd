@@ -1,0 +1,87 @@
+---
+title: "Heuristic Analysis"
+author: "Vamshidhar Pandrapagada"
+date: "May 16, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Heuristic Analysis
+
+This document compares the different heuristics used in building the agent and highlights reasoning for choosing the heuristic that was ultimately used to submit the agent
+
+## Heuristic 1: Chase Opponent Aggressively
+This Heuristic  outputs the score which is equal to the  difference between the number of Player's moves and the 2 times number of opponent's remaining moves.This score chases the opponent aggressively.
+
+Below are the win-rates scored by Heuristic 1 while playing against ID_Improved
+
+```{r echo=FALSE}
+library(ggplot2 )
+library(gridExtra)
+win_rate <- data.frame (
+                  Player = c(rep("ID_Improved", 7), rep("Heuristic", 7)),
+                  Opponent = c("Random","MM_Open","MM_Center","MM_Improved","AB_Open","AB_Center","AB_Improved"), 
+                  Wins  = c(8,6,8,7,5,6,5,10,5,6,7,6,3,4), 
+                  Losses = c(2,4,2,3,5,4,5,0,5,4,3,4,7,6)
+                )
+plot1 <- ggplot(win_rate, aes(x=Opponent, y=Wins, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Win Rate: ID_Improved vs Heuristic 1")
+plot2 <- ggplot(win_rate, aes(x=Opponent, y=Losses, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Loss Rate: ID_Improved vs Heuristic 1")
+grid.arrange(plot1, plot2, nrow=2)
+```
+**Win Rate for this heuristic was: 60% **
+
+## Heuristic 2: Evade Corners while nearing End-Game
+This heuristic  evaluates the game progress. If the board is occupied at near 70%,  
+
+a. Extract next set of legal moves of the player and the opponent.
+b. If the move falls in the corners and board occupancy is  > 70 penalize the move by deducting higher number of points.
+c. If the move falls in the corners and board occupancy is  < 70 reward the move by adding lower number of points..
+d. Return the sum of differences between the score and the number of moves left for player and the opponent
+
+Below are the win-rates scored by Heuristic 2 while playing against ID_Improved
+
+```{r echo=FALSE}
+library(ggplot2 )
+library(gridExtra)
+win_rate <- data.frame (
+                  Player = c(rep("ID_Improved", 7), rep("Heuristic", 7)),
+                  Opponent = c("Random","MM_Open","MM_Center","MM_Improved","AB_Open","AB_Center","AB_Improved"), 
+                  Wins  = c(8,6,8,7,5,6,5,8,7,8,6,5,5,5), 
+                  Losses = c(2,4,2,3,5,4,5,2,3,2,4,5,5,5)
+                )
+plot1 <- ggplot(win_rate, aes(x=Opponent, y=Wins, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Win Rate: ID_Improved vs Heuristic 2")
+plot2 <- ggplot(win_rate, aes(x=Opponent, y=Losses, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Loss Rate: ID_Improved vs Heuristic 2")
+grid.arrange(plot1, plot2, nrow=2)
+```
+
+**Win Rate for this heuristic was: 63% **
+
+## Heuristic 3: Maximum distance from Walls
+This heuristic function evaluates and returns the maximum squared distance between the player and any of the walls.
+
+Below are the win-rates scored by Heuristic 2 while playing against ID_Improved
+
+```{r echo=FALSE}
+library(ggplot2 )
+library(gridExtra)
+win_rate <- data.frame (
+                  Player = c(rep("ID_Improved", 7), rep("Heuristic", 7)),
+                  Opponent = c("Random","MM_Open","MM_Center","MM_Improved","AB_Open","AB_Center","AB_Improved"), 
+                  Wins  = c(8,6,8,7,5,6,5,8,6,7,4,5,5,4), 
+                  Losses = c(2,4,2,3,5,4,5,2,4,3,6,5,5,6)
+                )
+plot1 <- ggplot(win_rate, aes(x=Opponent, y=Wins, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Win Rate: ID_Improved vs Heuristic 3")
+plot2 <- ggplot(win_rate, aes(x=Opponent, y=Losses, fill=Player)) + geom_bar(stat="identity", position = 'dodge',colour="black") +ggtitle ("                    Loss Rate: ID_Improved vs Heuristic 3")
+grid.arrange(plot1, plot2, nrow=2)
+```
+
+**Win Rate for this heuristic was: 58% **
+
+## Observations and Conclusion
+**Heuristic number 2: Evade Corners while nearing End-Game** gave consistent results and was able to beat ID_Improved in most of the rounds with the win rate hovering at 72%.
+It is very evident that as the game gets near the end state with the board occupied nearly at 70%, avoiding the corners is yielding a higher probability of winning the game.  
+I ultimately use Heuristic number 2 for my submission.
+
