@@ -1,0 +1,46 @@
+---
+title: 'AI Planning and Search: Research Review'
+author: "Vamshidhar Pandrapagada"
+date: "June 18, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+AI planning and Search has a long history and is one of the extensively researched fields in computer science. Outcomes of these researches are used to solve some complicated and daunting tasks in day to day world. Despite the amount of research that's going on, the solutions discovered using AI planning are still complex, require optimization in multidimensional space and lack well defined Termination criteria
+
+A basic planning problem has States (Start and Intermediate Levels), Actions and Goal conditions. You execute a sequence of actions on States to lead towards the goal condition.
+
+## Developments
+Research in planning space has been central to AI since its inception and numerous developments took place in this field. As part of this review, we chose to take a quick look at one system from couple of planning domains.
+
+### 1. Classical Planning -STRIPS
+
+**STRIPS - Stanford Research Institute Problem Solver** was introduced by Fikes and Nilson in 1971, designed at SRI international was the planning component for Shakey Robot Project. Like any state-space search system, STRIPS is composed of States, Goal Conditions and Set of Actions. Every action is driven by a set of Post-Conditions and Pre-Conditions. 
+This composition defines the problem world for STRIPS to search all possible states, execute various actions and reach the goal.
+
+More than its algorithmic approach, the language used in STRIPS had high influence on new developments during that time. One example was **Problem Domain Description Language (PDDL)** which included STRIPS as special case along with more advanced features. Now PDDL is used  as a standard language for defining planning problems.  
+A main disadvantage of classical planning is its Uncertainty. A possible sequence of actions that guarantees goal achievement does not exists. Also these methods lack well defined termination criteria for Ongoing processes. 
+
+### 2. Probabilistic Planning - Markov Decision Process
+Now lets take a quick look at a problem domain when outcomes are partly random and partly controlled by the decision maker. These kind of situations can be modeled using a mathematical framework called **Markov Decision Process**, named after Andrey Markov.      
+MDPs are especially useful to solve infinite horizon problems where agent does not know how many actions it will be required to perform to reach the end goal.
+
+While Classical planning representations rely on State-Space enumeration, MDPs are controllable, stochastic transition systems where the probability that a process moves to a new state is influenced  by the chosen action. Given a state and action, the next state is conditionally independent of all previous states and actions.  
+
+MDPS are widely used to optimize methodologies by reinforcement learning to create better frameworks. These models have gained a lot of attention and are mostly associated with those fields of science where autonomous and optimal decision making is required like Robotics, Engineering, Gaming, Economics etc.
+
+### References
+1. Artificial Intelligence: A Modern Approach (3rd Edition) by Stuart.J.Russell and Peter Norvig
+2. Stanford Lecture Slides - [Logical Representations and Computational Methods for Markov Decision Processes](https://web.stanford.edu/group/nasslli/courses/boutilier/Lecture1.pdf)
+3. [How Markov Decision Process (MDP) Can Support Business Intelligence](https://www.linkedin.com/pulse/how-markov-decision-process-mdp-can-support-business-thomas-jetzinger)
+4. Wikipedia: [Automated planning and scheduling](https://en.wikipedia.org/wiki/Automated_planning_and_scheduling)
+5. [Artifical Intelligence: Foundations of Computational Agents](http://artint.info/html/ArtInt_224.html)
+6. [Artificial Intelligence Planning with STRIPS](http://www.primaryobjects.com/2015/11/06/artificial-intelligence-planning-with-strips-a-gentle-introduction/)
+
+
+

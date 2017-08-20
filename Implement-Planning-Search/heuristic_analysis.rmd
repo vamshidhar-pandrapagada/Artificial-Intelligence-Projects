@@ -1,0 +1,173 @@
+---
+title: 'Air Cargo Planning Search: Heuristic Analysis'
+author: "Vamshidhar Pandrapagada"
+date: "June 18, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+## 1. Introduction
+The goal of this project is to solve deterministic logistics planning problems for an Air Cargo transport system using a planning search agent. We define a group of problems in classical PDDL (Planning Domain Definition Language) for the air cargo domain example as described in Artificial Intelligence: A Modern Approach textbook -3rd Edition, Chapter 10.  
+  
+
+
+The project sets up the problems for search, experiment with various automatically generated heuristics, including planning graph heuristics, to solve the problems, and then provide an analysis of the results.    
+.  
+
+
+Our Analysis will focus on obtaining the metrics/results for each search type to determine an optimal solution for transporting cargo between the airports.   
+At first, Let's run uninformed planning searches for 3 different air cargo problems and compute the metrics on number of node expansions required, number of goal tests, time elapsed, and optimality of solution for each search algorithm.    
+
+## Uninformed Search: Analysis
+
+The following tables show the metrics for problem-search type combination.
+
+### Air Cargo Problem 1
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("Breadth First Search","Breadth First Tree Search",
+                                      "Depth First Graph Search","Depth Limited Search",
+                                      "Uniform Cost Search","Recursive Best First Search",
+                                      "Greedy Best First Search"),
+                      Expansions = c(44,1440,21,96,55,4206,7),
+                      `Goal Tests` = c(57,1441,22,248,57,4207,9),
+                      `New Nodes` = c(184,5880,84,391,224,16926,28),
+                      `Time Seconds` = c(0.021,0.62,0.009,0.055,0.025,1.825,0.003),
+                      `Plan Length` = c(6,6,20,50,6,6,6),
+                      `Optimal` = c('Yes','Yes','No','No','Yes','Yes','Yes')
+                      )
+  
+kable(metrics)
+```
+
+### Air Cargo Problem 2
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("Breadth First Search","Breadth First Tree Search",
+                                      "Depth First Graph Search","Depth Limited Search",
+                                      "Uniform Cost Search","Recursive Best First Search",
+                                      "Greedy Best First Search"),
+                      Expansions = c(3346,'-',1124,213491,4605,'-',465),
+                      `Goal Tests` = c(4612,'-',1125,1967093,4607,'-',467),
+                      `New Nodes` = c(30534,'-',10017,1967471,41839,'-',4185),
+                      `Time Seconds` = c(9.250,'> 10 Minutes',5.358,574.151,7.603,'> 10 Minutes',0.767),
+                      `Plan Length` = c(9,'-',1085,50,9,'-',20),
+                      `Optimal` = c('Yes','-','No','No','Yes','-','No')
+                      )
+  
+kable(metrics)
+```
+  
+  
+### Air Cargo Problem 3
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("Breadth First Search","Breadth First Tree Search",
+                                      "Depth First Graph Search","Depth Limited Search",
+                                      "Uniform Cost Search","Recursive Best First Search",
+                                      "Greedy Best First Search"),
+                      Expansions = c(14120,'-',677,'-',16955,'-',4024),
+                      `Goal Tests` = c(17673,'-',678,'-',16857,'-',4026),
+                      `New Nodes` = c(124926,'-',5608,'-',149060,'-',35226),
+                      `Time Seconds` = c(65.246,'> 10 Minutes',2.420,'> 10 Minutes',33.840,'> 10 Minutes',7.861),
+                      `Plan Length` = c(12,'-',660,'-',12,'-',30),
+                      `Optimal` = c('Yes','-','No','-','Yes','-','No')
+                      )
+  
+kable(metrics)
+```
+
+At first glance, Breadth First Search and Uniform Cost Search always perform better in reaching the goal with optimal plan.   
+Depth first search on the other hand is clearly the winner in terms of performance and memory utilization, with fewer node expansions and plan length. This is very obvious because the path to the end goal while traversing down the depth of the tree does not require to store pointers at each level.
+
+If memory utilization is not a constraint (will not be because of its abundance and lower price to obtain) **Breadth First Search** is the recommended strategy. This is because of the following reasons:  
+
+1. The main advantages of this technique is it being Optimal and Complete. 
+2. Even though **Uniform Cost Search** has similar plan length,   the number of expansions and goal tests are more when compared to **Breadth First Search**.
+3. **Depth First Search** is not optimal and plan lengths are longer.
+
+## Informed Heuristic Search: Analysis
+A Planned graph is used to construct better heuristic estimates. In this exercise, these heuristics are applied to A-Star search technique.Below we compare informed search result metrics using A* with the "ignore preconditions" and "level-sum" heuristics.
+
+.  
+
+### Air Cargo Problem 1
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("A-Star Search H1",
+                                      "A-Star Search Ignore Preconditions","A-Star Search Level Sum"),
+                      Expansions = c(55,41,39),
+                      `Goal Tests` = c(57,43,41),
+                      `New Nodes` = c(224,170,158),
+                      `Time Seconds` = c(0.025,0.025,0.786),
+                      `Plan Length` = c(6,6,6),
+                      `Optimal` = c('Yes','Yes','Yes')
+                      )
+  
+kable(metrics)
+```
+
+### Air Cargo Problem 2
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("A-Star Search H1",
+                                      "A-Star Search Ignore Preconditions","A-Star Search Level Sum"),
+                      Expansions = c(4605,1311,997),
+                      `Goal Tests` = c(4607,1313,999),
+                      `New Nodes` = c(41839,11989,8994),
+                      `Time Seconds` = c(7.609,2.564,283.350),
+                      `Plan Length` = c(9,9,9),
+                      `Optimal` = c('Yes','Yes','Yes')
+                      )
+  
+kable(metrics)
+```
+
+### Air Cargo Problem 3 
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("A-Star Search H1",
+                                      "A-Star Search Ignore Preconditions","A-Star Search Level Sum"),
+                      Expansions = c(16955,4444,1751),
+                      `Goal Tests` = c(16957,4446,1753),
+                      `New Nodes` = c(149060,39227,15309),
+                      `Time Seconds` = c(32.601,9.856,984.405),
+                      `Plan Length` = c(12,12,12),
+                      `Optimal` = c('Yes','Yes','Yes')
+                      )
+  
+kable(metrics)
+```
+
+All the three informed heuristic search results yield optimal plan. **A-Star Search Level Sum** heuristic runs for a long time (especially for Problem 2 and 3) but use very less memory. This is still not a desired heuristic due to time complexity.  
+Compare between **A-Star H1 and A-Star Ignore Preconditions**, Ignore pre-conditions is a clear winner with fewer node expansions and faster performance in returning the goal state.
+
+### Comparison: Non-heuristic Uninformed Search vs Heuristic Informed Search
+
+If the problem domain is simpler, the complicated A-Star heuristic search does not add any value either in-terms of optimality or performance. But as the problem gets complicated, using a A-Star search with Ignore-Pre Conditions heuristic is a very evident better performer.
+For Problem 3, below is the gist of comparison.
+
+```{r echo= FALSE}
+metrics <- data.frame(Search_Type = c("Breadth First Search",
+                                      "A-Star Search Ignore Preconditions"),
+                      Expansions = c(14120,4444),
+                      `Goal Tests` = c(17673,4446),
+                      `New Nodes` = c(124926,39227),
+                      `Time Seconds` = c(65.246,9.856),
+                      `Plan Length` = c(12,12),
+                      `Optimal` = c('Yes','Yes')
+                      )
+  
+kable(metrics)
+```
+
+### Conclusion
+Custom heuristics (calculated using planning graphs) when applied to search techniques like A-Star definitely yield better results than Uninformed searches. As we have observed, these informed search strategies are better both in terms of speed and optimality.
+
+### References  
+  
+1. Artifical Intelligence: A Modern Approach (3rd Edition) by Stuart.J.Russell and Peter Norvig
